@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitera - Workout Planner</title>
+    <style>
+        :root {
+            --first-color: hsl(79, 72%, 55%);
+            --first-color-light: hsl(79, 97%, 77%);
+            --first-color-alt: hsl(79, 67%, 52%);
+            --first-color-dark: hsl(79, 63%, 50%);
+            --first-color-gray: hsl(79, 6%, 64%);
+            --title-color: hsl(180, 4%, 98%);
+            --title-color-black: hsl(180, 4%, 12%);
+            --text-color: hsl(180, 4%, 72%);
+            --text-color-light: hsl(180, 4%, 65%);
+            --body-color: hsl(180, 12%, 8%);
+            --body-font: "Red Hat Display", sans-serif;
+            --second-font: "Kaushan Script", cursive;
+        }
+
+        body {
+            font-family: var(--body-font);
+            background-color: var(--body-color);
+            color: var(--title-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: rgba(34, 34, 34, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h2 {
+            font-family: var(--second-font);
+            font-size: 2rem;
+            color: var(--first-color-dark);
+            margin-bottom: 20px;
+        }
+
+        h3{
+            color:#ffffff;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin: 15px 0 5px;
+            color: #ffffff;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid var(--first-color);
+            border-radius: 8px;
+            background-color: #333;
+            color: #ffffff;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 20px;
+            background-color: var(--first-color);
+            color: var(--body-color);
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: var(--second-font);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #workoutPlan {
+            margin-top: 20px;
+            padding: 15px;
+            background: var(--first-color-alt);
+            border-radius: 10px;
+            color: var(--body-color);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            select, input, button {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Workout Planner</h2>
+        <label for="fitnessLevel">Fitness Level:</label>
+        <select id="fitnessLevel">
+            <option>Beginner</option>
+            <option>Intermediate</option>
+            <option>Advanced</option>
+        </select>
+
+        <label for="muscleGroup">Muscle Group:</label>
+        <select id="muscleGroup">
+            <option>Full Body</option>
+            <option>Chest</option>
+            <option>Back</option>
+            <option>Legs</option>
+            <option>Arms</option>
+            <option>Core</option>
+        </select>
+
+        <label for="goal">Workout Goal:</label>
+        <select id="goal">
+            <option>Strength</option>
+            <option>Hypertrophy</option>
+            <option>Endurance</option>
+            <option>Fat Loss</option>
+        </select>
+
+        <label for="frequency">Workout Frequency (Days per week):</label>
+        <input type="number" id="frequency" min="1" max="7" placeholder="Enter between 1-7">
+
+        <button onclick="generatePlan()">Generate Plan</button>
+
+        <h3>Your Workout Plan</h3>
+        <div id="workoutPlan"></div>
+    </div>
+
+    <script>
+        function generatePlan() {
+            let level = document.getElementById("fitnessLevel").value;
+            let muscle = document.getElementById("muscleGroup").value;
+            let goal = document.getElementById("goal").value;
+            let frequency = document.getElementById("frequency").value;
+
+            if (frequency < 1 || frequency > 7 || frequency === "") {
+                alert("Please enter a valid workout frequency (1-7)." );
+                return;
+            }
+
+            let exercises = {
+                "Beginner": {
+                    "Full Body": ["Jumping Jacks", "Push-ups", "Squats"],
+                    "Chest": ["Knee Push-ups", "Chest Press (Light)"],
+                    "Back": ["Bent-over Rows", "Lat Pulldown"],
+                    "Legs": ["Bodyweight Squats", "Lunges"],
+                    "Arms": ["Bicep Curls (Light)", "Triceps Dips"],
+                    "Core": ["Planks", "Crunches"]
+                },
+                "Intermediate": {
+                    "Full Body": ["Burpees", "Pull-ups", "Deadlifts"],
+                    "Chest": ["Bench Press", "Incline Dumbbell Press"],
+                    "Back": ["Pull-ups", "Deadlifts"],
+                    "Legs": ["Squats", "Lunges", "Leg Press"],
+                    "Arms": ["Barbell Curls", "Triceps Extensions"],
+                    "Core": ["Russian Twists", "Hanging Leg Raises"]
+                },
+                "Advanced": {
+                    "Full Body": ["Muscle-ups", "Handstand Push-ups", "Power Cleans"],
+                    "Chest": ["Weighted Dips", "Decline Bench Press"],
+                    "Back": ["Weighted Pull-ups", "Rack Pulls"],
+                    "Legs": ["Bulgarian Split Squats", "Snatch", "Pistol Squats"],
+                    "Arms": ["EZ Bar Curls", "Skull Crushers"],
+                    "Core": ["Dragon Flags", "Ab Rollouts"]
+                }
+            };
+
+            let goalModifiers = {
+                "Strength": "Heavy weights, Low reps (3-6 reps)",
+                "Hypertrophy": "Moderate weights, Medium reps (8-12 reps)",
+                "Endurance": "Light weights, High reps (15-20 reps)",
+                "Fat Loss": "Circuit Training, High intensity, Low rest periods"
+            };
+
+            let selectedExercises = exercises[level][muscle] || [];
+            let trainingApproach = goalModifiers[goal];
+
+            let plan = `
+                <p><strong>Level:</strong> ${level}</p>
+                <p><strong>Muscle Group:</strong> ${muscle}</p>
+                <p><strong>Goal:</strong> ${goal}</p>
+                <p><strong>Frequency:</strong> ${frequency} days/week</p>
+                <p><strong>Suggested Exercises:</strong> ${selectedExercises.join(", ")}</p>
+                <p><strong>Training Approach:</strong> ${trainingApproach}</p>
+            `;
+
+            document.getElementById("workoutPlan").innerHTML = plan;
+        }
+    </script>
+</body>
+</html>

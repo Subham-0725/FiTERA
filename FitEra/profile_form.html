@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Form</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Red+Hat+Display:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --header-height: 3.5rem;
+            --first-color: hsl(79, 72%, 55%);
+            --first-color-light: hsl(79, 97%, 77%);
+            --first-color-alt: hsl(79, 67%, 52%);
+            --first-color-dark: hsl(79, 63%, 50%);
+            --first-color-gray: hsl(79, 6%, 64%);
+            --title-color: hsl(180, 4%, 98%);
+            --text-color: hsl(180, 4%, 72%);
+            --body-color: hsl(180, 12%, 8%);
+            --body-bg-color: #101820;
+            --button-color: hsl(79, 72%, 55%);
+            --button-hover-color: hsl(79, 67%, 52%);
+            --input-border-color: hsl(79, 97%, 77%);
+            --input-focus-border-color: hsl(79, 63%, 50%);
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            --transition-speed: 0.3s;
+            --font-size: 1rem;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Red Hat Display', sans-serif;
+            background-color: var(--body-bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: var(--body-color);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: var(--box-shadow);
+            animation: fadeUp 1s ease-out;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--first-color);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-family: 'Kaushan Script', cursive;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-size: var(--font-size);
+            color: var(--first-color);
+        }
+
+        input[type="text"], input[type="tel"], input[type="number"], select {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 20px;
+            border: 1px solid var(--input-border-color);
+            border-radius: 5px;
+            font-size: var(--font-size);
+            box-sizing: border-box;
+            transition: border-color var(--transition-speed);
+        }
+
+        input[type="text"]:focus, input[type="tel"]:focus, input[type="number"]:focus, select:focus {
+            border-color: var(--input-focus-border-color);
+            outline: none;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--button-color);
+            border: none;
+            color: white;
+            font-size: var(--font-size);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color var(--transition-speed);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        input[type="submit"]:hover {
+            background-color: var(--button-hover-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            label {
+                font-size: 0.95rem;
+            }
+
+            input[type="text"], input[type="tel"], input[type="number"], select {
+                font-size: 0.95rem;
+                padding: 12px;
+            }
+
+            input[type="submit"] {
+                font-size: 1rem;
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            label {
+                font-size: 0.9rem;
+            }
+
+            input[type="text"], input[type="tel"], input[type="number"], select {
+                font-size: 0.9rem;
+                padding: 10px;
+            }
+
+            input[type="submit"] {
+                font-size: 0.9rem;
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            label {
+                font-size: 0.85rem;
+            }
+
+            input[type="text"], input[type="tel"], input[type="number"], select {
+                font-size: 0.85rem;
+                padding: 8px;
+            }
+
+            input[type="submit"] {
+                font-size: 0.85rem;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Profile Form</h1>
+    <form id="profileForm" action="#" method="post">
+        <label for="name">Enter Your Name</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="phone">Enter Your Phone No.</label>
+        <input type="tel" id="phone" name="phone" required>
+
+        <label for="age">Enter Your Age</label>
+        <input type="number" id="age" name="age" required>
+
+        <label for="height">Enter Your Height (in cm)</label>
+        <input type="number" id="height" name="height" required>
+
+        <label for="weight">Enter Your Weight (in kg)</label>
+        <input type="number" id="weight" name="weight" required>
+
+        <label for="gender">Enter Your Gender</label>
+        <select id="gender" name="gender" required>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+        </select>
+
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
+<script>
+    document.getElementById('profileForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const name = document.getElementById('name').value;
+        const phone = document.getElementById('phone').value;
+        const age = document.getElementById('age').value;
+        const height = document.getElementById('height').value;
+        const weight = document.getElementById('weight').value;
+        const gender = document.getElementById('gender').value;
+
+        sessionStorage.setItem('name', name);
+        sessionStorage.setItem('phone', phone);
+        sessionStorage.setItem('age', age);
+        sessionStorage.setItem('height', height);
+        sessionStorage.setItem('weight', weight);
+        sessionStorage.setItem('gender', gender);
+
+        window.location.href = 'Programs.html';
+    });
+</script>
+
+</body>
+</html>

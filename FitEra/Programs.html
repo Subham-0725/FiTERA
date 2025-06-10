@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FiTERA Programs</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Red+Hat+Display:wght@400;700;900&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --header-height: 3.5rem;
+      --first-color: hsl(79, 72%, 55%);
+      --first-color-light: hsl(79, 97%, 77%);
+      --first-color-alt: hsl(79, 67%, 52%);
+      --first-color-dark: hsl(79, 63%, 50%);
+      --first-color-gray: hsl(79, 6%, 64%);
+      --title-color: hsl(180, 4%, 98%);
+      --title-color-black: hsl(180, 4%, 12%);
+      --text-color: hsl(180, 4%, 72%);
+      --text-color-light: hsl(180, 4%, 65%);
+      --body-color: hsl(180, 12%, 8%);
+      --body-font: "Red Hat Display", sans-serif;
+      --second-font: "Kaushan Script", cursive;
+      --biggest-font-size: 2rem;
+      --bigger-font-size: 1.5rem;
+      --big-font-size: 1.25rem;
+      --h1-font-size: 1.5rem;
+      --h2-font-size: 1.25rem;
+      --h3-font-size: 1rem;
+      --normal-font-size: 0.938rem;
+      --small-font-size: 0.813rem;
+      --smaller-font-size: 0.75rem;
+    }
+
+    .header {
+      width: 100%;
+      background-color: var(--body-color);
+      height: var(--header-height);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+    }
+
+    .nav {
+      height: 100%;
+      width: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .nav__logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .nav__logo-img {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 1rem;
+    }
+
+    .nav__logo-text {
+      font-size: 1.5rem;
+      color: white;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .nav__menu {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav__list {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+    }
+
+    .nav__link {
+      color: var(--text-color);
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.3s;
+    }
+
+    .nav__link:hover {
+      color: var(--first-color);
+    }
+
+    .nav__toggle {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-color);
+    }
+
+    .nav__close {
+      display: none;
+      font-size: 2rem;
+      color: var(--text-color);
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .nav__menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background-color: var(--body-color);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 2rem;
+        transition: right 0.3s;
+        z-index: 99;
+      }
+
+      .nav__menu.active {
+        right: 0;
+      }
+
+      .nav__toggle {
+        display: block;
+      }
+
+      .nav__close {
+        display: block;
+        margin-bottom: 2rem;
+      }
+
+      .nav__list {
+        flex-direction: column;
+        gap: 2rem;
+      }
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--body-font);
+      background-color: var(--body-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      margin: 0;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .programs-section {
+      text-align: center;
+      padding: 3rem 2rem;
+      background-color: var(--body-color);
+    }
+
+    .section-heading {
+      font-size: 4rem;
+      color: var(--first-color);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      font-family: var(--body-font);
+    }
+
+    .subheading {
+      font-size: 2.5rem;
+      color: var(--text-color-light);
+      margin-bottom: 2rem;
+      font-family: var(--second-font);
+    }
+
+    .cards-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    .card {
+      background-color: hsla(79, 6%, 64%, 0.07);
+      height: 300px;
+      width: 250px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border-radius: 8px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      text-align: center;
+      position: relative;
+      padding: 1rem;
+    }
+
+    .card:hover {
+      background-color: var(--first-color-dark);
+      transform: translateY(-5px);
+      box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-logo {
+      background-color: gray;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .card-logo img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      color: var(--title-color);
+      margin-bottom: 0.25rem;
+      transition: color 0.3s;
+    }
+
+    .card-description {
+      font-size: 1rem;
+      color: var(--text-color);
+      transition: color 0.3s;
+    }
+
+    .card:hover .card-title,
+    .card:hover .card-description {
+      color: black;
+    }
+
+    .card-arrow {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      font-size: 1.5rem;
+      color: hsla(79, 6%, 64%, 0.07);
+      transition: color 0.3s, transform 0.3s;
+      cursor: pointer;
+    }
+
+    .card:hover .card-arrow {
+      color: white;
+      transform: translateX(5px);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <header class="header">
+    <nav class="nav container">
+      <a href="#" class="nav__logo">
+        <img src="img/fit.webp" alt="Website Logo" class="nav__logo-img" />
+        <span class="nav__logo-text">FiTERA</span>
+      </a>
+      <div class="nav__menu" id="nav-menu">
+        <ul class="nav__list">
+          <li class="nav__item">
+            <a href="Programs.html" class="nav__link">Program</a>
+          </li>
+          <li class="nav__item">
+            <a href="#" class="nav__link">Choose Us</a>
+          </li>
+          <li class="nav__item">
+            <a href="Login.html" class="nav__link">Login</a>
+          </li>
+          <li class="nav__item">
+            <a href="profile_nav.html" class="nav__link" id="profileLink">
+              Profile
+            </a>
+          </li>
+        </ul>
+        <div class="nav__close" id="nav-close">&times;</div>
+      </div>
+      <div class="nav__toggle" id="nav-toggle">&#9776;</div>
+    </nav>
+  </header>
+  <!-- Programs Section -->
+  <section class="programs-section" style="margin-top: 4rem">
+    <h2 class="section-heading">Our Programs</h2>
+    <h3 class="subheading">Build Your Strength</h3>
+    <div class="cards-container">
+      <div class="card">
+        <div class="card-logo">
+          <img src="img/icons8-idea-100.png" alt="Logo" />
+        </div>
+        <h4 class="card-title">Ideal Weight</h4>
+        <p class="card-description">
+          Get an idea about your ideal weight
+        </p>
+        <a href="ideal_weight.html">
+          <i class="ri-arrow-right-line card-arrow"></i>
+        </a>
+      </div>
+      <div class="card">
+        <div class="card-logo">
+          <img src="img/icons8-scale-100 (1).png" alt="Logo" />
+        </div>
+        <h4 class="card-title">Weight Gain</h4>
+        <p class="card-description">
+          Transform your body with effective weight gain plans.
+        </p>
+        <a href="weight_gain.html">
+          <i class="ri-arrow-right-line card-arrow"></i>
+        </a>
+      </div>
+      <div class="card">
+        <div class="card-logo">
+          <img src="img/icons8-weight-loss-100.png" alt="Logo" />
+        </div>
+        <h4 class="card-title">Weight Loss</h4>
+        <p class="card-description">
+          Transform your body with effective weight loss plans.
+        </p>
+        <a href="weight_loss.html">
+          <i class="ri-arrow-right-line card-arrow"></i>
+        </a>
+      </div>
+      <div class="card">
+        <div class="card-logo">
+          <img src="img/program1.png" alt="Logo" />
+        </div>
+        <h4 class="card-title">Workout Plans</h4>
+        <p class="card-description">
+          Customized workout plans tailored to your goals.
+        </p>
+        <a href="workout_plans.html">
+          <i class="ri-arrow-right-line card-arrow"></i>
+        </a>
+      </div>
+      <div class="card">
+        <div class="card-logo">
+          <img src="img/icons8-bmi-100.png" alt="Logo" />
+        </div>
+        <h4 class="card-title">BMI Calculator</h4>
+        <p class="card-description">
+          Calculate your BMI and keep a check of your health
+        </p>
+        <a href="BMI.html">
+          <i class="ri-arrow-right-line card-arrow"></i>
+        </a>
+      </div>
+      <div class="card">
+        <div class="card-logo">
+          <img src="img/icons8-to-do-100.png" alt="Logo" />
+        </div>
+        <h4 class="card-title">Plan Your Exercises</h4>
+        <p class="card-description">
+          Make a routine or store your fitness programs
+        </p>
+        <a href="to-do-list.html">
+          <i class="ri-arrow-right-line card-arrow"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+  <script>
+    const navMenu = document.getElementById("nav-menu"),
+      navToggle = document.getElementById("nav-toggle"),
+      navClose = document.getElementById("nav-close");
+
+    if (navToggle) {
+      navToggle.addEventListener("click", () => {
+        navMenu.classList.add("active");
+      });
+    }
+
+
+    if (navClose) {
+      navClose.addEventListener("click", () => {
+        navMenu.classList.remove("active");
+      });
+    }
+  </script>
+</body>
+
+</html>

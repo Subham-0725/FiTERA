@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login Form</title>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: rgb(0, 0, 0);
+      background-size: cover;
+      background-position: center;
+    }
+
+    .wrapper {
+      width: 420px;
+      background: transparent;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(9px);
+      color: hsl(79, 72%, 55%);
+      border-radius: 12px;
+      padding: 20px 30px;
+      transition: all 0.3s ease;
+    }
+
+    .wrapper h1 {
+      font-size: 36px;
+      text-align: center;
+    }
+
+    .input-box {
+      position: relative;
+      width: 100%;
+      height: 50px;
+      margin: 30px 0;
+    }
+
+    .input-box input {
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 40px;
+      font-size: 16px;
+      color: #fff;
+      padding: 20px 45px 20px 20px;
+    }
+
+    .input-box input::placeholder {
+      color: hsl(79, 72%, 55%);
+    }
+
+    .input-box i {
+      position: absolute;
+      right: 20px;
+      top: 30%;
+      transform: translate(-50%);
+      font-size: 20px;
+    }
+
+    .remember-forgot {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14.5px;
+      margin: -15px 0 15px;
+    }
+
+    .remember-forgot label input {
+      accent-color: #fff;
+      margin-right: 3px;
+    }
+
+    .remember-forgot a {
+      color: hsl(79, 72%, 55%);
+      text-decoration: none;
+    }
+
+    .remember-forgot a:hover {
+      text-decoration: underline;
+    }
+
+    .btn {
+      width: 100%;
+      height: 45px;
+      background: #fff;
+      border: none;
+      outline: none;
+      border-radius: 40px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      font-size: 16px;
+      color: #333;
+      font-weight: 600;
+    }
+
+    .register-link {
+      font-size: 14.5px;
+      text-align: center;
+      margin: 20px 0 15px;
+    }
+
+    .register-link p a {
+      color: hsl(79, 72%, 55%);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .register-link p a:hover {
+      text-decoration: underline;
+    }
+
+    .custom-alert {
+      position: fixed;
+      top: 5%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #222;
+      color: #fff;
+      padding: 16px 30px;
+      border-radius: 10px;
+      z-index: 10000;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+      animation: fadeInOut 3s ease-in-out forwards;
+
+      /* Make width responsive */
+      width: 90%;
+      max-width: 350px;
+      text-align: center;
+      font-size: 1rem;
+      word-wrap: break-word;
+    }
+
+    /* Smaller font on small devices */
+    @media (max-width: 600px) {
+      .custom-alert {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+        max-width: 280px;
+        position: fixed;
+        top: 5%;
+        left: 50%;
+      }
+    }
+
+    @keyframes fadeInOut {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+      }
+
+      10% {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
+
+      90% {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -40%);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper" id="form-wrapper">
+    <!-- Login Form -->
+    <form id="login-form">
+      <h1>Login</h1>
+      <div class="input-box">
+        <input type="email" name="email" placeholder="Email" id="login-email" required />
+        <i class="bx bxs-envelope"></i>
+      </div>
+      <div class="input-box">
+        <input type="password" name="password" placeholder="Password" id="login-password" required />
+        <i class="bx bxs-lock-alt"></i>
+      </div>
+      <div class="remember-forgot">
+        <label><input type="checkbox" />Remember Me</label>
+        <a href="javascript:void(0);" id="forgot-password-link">Forgot Password</a>
+      </div>
+      <button type="submit" class="btn">Login</button>
+      <div class="register-link">
+        <p>Don't have an account? <a href="javascript:void(0);" id="switch-to-signup">Register</a></p>
+      </div>
+    </form>
+
+    <!-- Signup Form -->
+    <form id="signup-form" style="display: none">
+      <h1>Sign Up</h1>
+      <div class="input-box">
+        <input type="text" name="username" placeholder="Username" required />
+        <i class="bx bxs-user"></i>
+      </div>
+      <div class="input-box">
+        <input type="email" name="email" placeholder="Email" id="signup-email" required />
+        <i class="bx bxs-envelope"></i>
+      </div>
+      <div class="input-box">
+        <input type="password" name="password" placeholder="Password" id="signup-password" required />
+        <i class="bx bxs-lock-alt"></i>
+      </div>
+      <div class="input-box">
+        <input type="password" name="confirm_password" placeholder="Re-enter Password" id="signup-confirm-password"
+          required />
+        <i class="bx bxs-lock-alt"></i>
+      </div>
+      <button type="submit" class="btn">Sign Up</button>
+      <div class="register-link">
+        <p>Already have an account? <a href="javascript:void(0);" id="switch-to-login">Login</a></p>
+      </div>
+    </form>
+
+    <!-- Forgot Password Form -->
+    <form id="forgot-password-form" style="display: none">
+      <h1>Reset Password</h1>
+      <div class="input-box">
+        <input type="email" placeholder="Enter your email" required />
+        <i class="bx bxs-envelope"></i>
+      </div>
+      <button type="submit" class="btn">Reset Password</button>
+      <div class="register-link">
+        <p><a href="javascript:void(0);" id="back-to-login">Back to Login</a></p>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const loginForm = document.getElementById("login-form");
+    const signupForm = document.getElementById("signup-form");
+    const forgotPasswordForm = document.getElementById("forgot-password-form");
+    const switchToSignup = document.getElementById("switch-to-signup");
+    const switchToLogin = document.getElementById("switch-to-login");
+    const forgotPasswordLink = document.getElementById("forgot-password-link");
+    const backToLoginLink = document.getElementById("back-to-login");
+
+    let users = {};
+
+    function showMessage(message) {
+      const div = document.createElement("div");
+      div.className = "custom-alert";
+      div.innerText = message;
+      document.body.appendChild(div);
+      setTimeout(() => div.remove(), 3000);
+    }
+
+    function validateEmail(email) {
+      const allowedDomains = ["gmail.com", "yahoo.com", "rediffmail.com", "outlook.com", "hotmail.com", "giet.edu"];
+      const emailRegex = /^[^\s@]+@([^\s@]+\.[^\s@]+)$/;
+      const match = email.match(emailRegex);
+      if (!match) return false;
+      const domain = match[1].toLowerCase();
+      return allowedDomains.includes(domain);
+    }
+
+    signupForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("signup-email").value;
+      const password = document.getElementById("signup-password").value;
+      const confirmPassword = document.getElementById("signup-confirm-password").value;
+
+      if (!validateEmail(email)) {
+        showMessage("Unverified email domain!");
+        return;
+      }
+      if (password !== confirmPassword) {
+        showMessage("Passwords do not match!");
+        return;
+      }
+      if (users[email]) {
+        showMessage("Email is already registered!");
+        return;
+      }
+
+      users[email] = { password };
+      showMessage("Signup successful!");
+      signupForm.reset();
+      switchToLogin.click();
+    });
+
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
+
+      if (!validateEmail(email)) {
+        showMessage("Invalid email format!");
+        return;
+      }
+
+      if (users[email] && users[email].password === password) {
+        showMessage("Login successful!");
+        setTimeout(() => {
+          window.location.href = "profile_form.html";
+        }, 1000);
+      } else {
+        showMessage("Incorrect email or password!");
+      }
+    });
+
+    switchToSignup.addEventListener("click", () => {
+      loginForm.style.display = "none";
+      signupForm.style.display = "block";
+      forgotPasswordForm.style.display = "none";
+    });
+
+    switchToLogin.addEventListener("click", () => {
+      loginForm.style.display = "block";
+      signupForm.style.display = "none";
+      forgotPasswordForm.style.display = "none";
+    });
+
+    forgotPasswordLink.addEventListener("click", () => {
+      loginForm.style.display = "none";
+      forgotPasswordForm.style.display = "block";
+    });
+
+    backToLoginLink.addEventListener("click", () => {
+      loginForm.style.display = "block";
+      forgotPasswordForm.style.display = "none";
+    });
+  </script>
+</body>
+
+</html>

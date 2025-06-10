@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <title>Fitness Advisor</title>
+    <style>
+       body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #111, #222);
+        color: white;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 400px;
+        margin: auto;
+        background: rgba(34, 34, 34, 0.9);
+        padding: 50px;
+        border-radius: 15px;
+        box-shadow: 0px 4px 15px rgba(166, 255, 77, 0.4);
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      }
+
+      .container:hover {
+        transform: scale(1.03);
+        box-shadow: 0px 4px 20px rgba(166, 255, 77, 0.5);
+      }
+
+      h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+
+      .container h2 {
+        color: #a6ff4d;
+        font-size: 2rem;
+      }
+
+      label {
+        font-size: 16px;
+        font-weight: 600;
+        display: block;
+        text-align: left;
+        margin-top: 12px;
+      }
+
+      input {
+        width: 100%;
+        padding: 12px;
+        margin-top: 5px;
+        border: none;
+        border-radius: 8px;
+        background: #333;
+        color: white;
+        font-size: 16px;
+        outline: none;
+        transition: all 0.3s ease;
+      }
+
+      input:focus {
+        background: #444;
+        box-shadow: 0px 0px 10px rgba(166, 255, 77, 0.5);
+        transform: scale(1.02);
+      }
+
+      button {
+        width: 100%;
+        background: linear-gradient(90deg, #a6ff4d, #8ee000);
+        color: black;
+        padding: 12px;
+        margin-top: 15px;
+        border: none;
+        border-radius: 8px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0px 4px 10px rgba(166, 255, 77, 0.3);
+      }
+
+      button:hover {
+        background: linear-gradient(90deg, #8ee000, #a6ff4d);
+        transform: translateY(-3px);
+        box-shadow: 0px 4px 15px rgba(166, 255, 77, 0.6);
+      }
+
+      #result {
+        margin-top: 20px;
+        font-size: 16px;
+        font-weight: 500;
+        color: #ffffff;
+        text-align: left;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 10px;
+        border-radius: 8px;
+      }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Weight Gain Advisor</h2>
+        <label>Height (cm):</label>
+        <input type="number" id="height" placeholder="Enter your height" />
+        <label>Current Weight (kg):</label>
+        <input type="number" id="currentWeight" placeholder="Enter your weight" />
+        <label>Target Weight (kg):</label>
+        <input
+          type="number"
+          id="targetWeight"
+          placeholder="Enter target weight"
+        />
+        <button onclick="generatePlan()">Get Plan</button>
+        <div id="result"></div>
+      </div>
+
+    <script>
+         function generatePlan() {
+            let height = parseFloat(document.getElementById("height").value);
+            let currentWeight = parseFloat(document.getElementById("currentWeight").value);
+            let targetWeight = parseFloat(document.getElementById("targetWeight").value);
+            let resultDiv = document.getElementById("result");
+
+            if (isNaN(height) || isNaN(currentWeight) || isNaN(targetWeight)) {
+                resultDiv.innerHTML = "Please enter valid numbers.";
+                return;
+            }
+
+            let weightDifference = targetWeight - currentWeight;
+            let maxAllowedGain = currentWeight * 0.15;
+
+            if (weightDifference <= 0) {
+                resultDiv.innerHTML = "Target weight should be more than current weight for weight gain.";
+                return;
+            }
+            
+            if (weightDifference > maxAllowedGain) {
+                resultDiv.innerHTML = `You should't gain more than 15% of your current weight! (Max: +${maxAllowedGain.toFixed(2)} kg)`;
+                return;
+            }
+
+            let fitnessPlan = "";
+            let dietPlan = "";
+            let mealPlanner = "";
+
+
+        if (weightDifference <= 3) {
+          fitnessPlan = `
+    <i class='bx bxs-right-arrow'></i> <b>Strength Training (4-5x/week) – Squats, Deadlifts, Bench Press, Shoulder Press, Pull-ups (3 sets, 8-12 reps)<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Cardio (2-3x/week, moderate intensity) – Brisk Walking (20-30 min) or Cycling (15-20 min)(30 min)<br>
+
+    <i class='bx bxs-right-arrow'></i><b> Core & Mobility (2x/week) – Planks, Hanging Leg Raises, Stretching, Yoga<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Daily Steps – 8,000-10,000+<br>
+
+`;
+          dietPlan = `
+    <i class='bx bxs-right-arrow'></i> <b>Protein (30-40%) – Chicken, Fish, Eggs, Paneer, Lentils, Greek Yogurt<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Carbs (40-45%) – Brown Rice, Oats, Whole Wheat, Sweet Potatoes<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Fats (20-25%) – Nuts, Avocado, Olive Oil, Seeds<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Hydration – 3-4L water daily<br>
+`;
+          mealplanner = `
+      <i class='bx bxs-right-arrow'></i> <b>Breakfast: Oats with Banana & Peanut Butter + Boiled Eggs<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Snack: Greek Yogurt with Nuts & Honey<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Lunch: Grilled Chicken/Fish + Quinoa/Brown Rice + Steamed Veggies<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Evening Snack: Protein Shake or Cottage Cheese Sandwich<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Dinner: Stir-fried Paneer/Tofu + Whole Wheat Roti + Mixed Vegetables<br>
+
+`;
+        } else if (weightDifference <= 5) {
+          fitnessPlan = `
+    <i class='bx bxs-right-arrow'></i> <b>Strength Training (4-5x/week) – Squats, Deadlifts, Bench Press, Shoulder Press, Rows (3-4 sets, 8-12 reps)<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Progressive Overload – Increase weights gradually every 1-2 weeks(40 min)<br>
+
+    <i class='bx bxs-right-arrow'></i>Low-Intensity Cardio (2-3x/week) – Brisk Walking or Cycling (20-30 min) to avoid excessive calorie burn<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Core & Mobility (2x/week) – Planks, Hanging Leg Raises, Stretching<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Daily Steps – 6,000-8,000 (Avoid excessive movement to conserve calories)<br>
+
+`;
+          dietPlan = `
+    <i class='bx bxs-right-arrow'></i> <b>Caloric Surplus – Consume 300-500 kcal more than maintenance daily<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Protein (30-35%) – Chicken, Fish, Eggs, Paneer, Lentils, Greek Yogurt<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Carbs (45-50%) – Brown Rice, Whole Wheat, Sweet Potatoes, Oats, Fruits<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Fats (20-25%) – Nuts, Avocado, Olive Oil, Seeds, Peanut Butter<br>
+
+
+    <i class='bx bxs-right-arrow'></i> <b>Hydration – 3-4L water daily<br>
+`;
+          mealplanner = `
+      <i class='bx bxs-right-arrow'></i> <b>Breakfast: Whole Wheat Toast + Scrambled Eggs + Avocado + Milk<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Snack: Banana + Peanut Butter or Protein Shake with Nuts<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Lunch: Grilled Chicken/Fish + Brown Rice/Quinoa + Steamed Vegetables<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Evening Snack: Greek Yogurt with Honey & Almonds or Dark Chocolate<br>
+
+    <i class='bx bxs-right-arrow'></i> <b> Dinner: Paneer/Tofu Stir-fry + Whole Wheat Roti + Mixed Vegetables<br>
+
+`;
+        } else if (weightDifference <= 7) {
+          fitnessPlan = `
+    <i class='bx bxs-right-arrow'></i>Strength Training (5x/week) – Squats, Deadlifts, Bench Press, Shoulder Press, Rows, Pull-ups (4 sets, 8-12 reps)<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Progressive Overload – Increase weights every 1-2 weeks to build muscle(45 min)<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Low-Intensity Cardio (2x/week) – Brisk Walking or Cycling (15-25 min) to maintain stamina without burning excess calories<br>
+    
+    <i class='bx bxs-right-arrow'></i><b> Core & Mobility (2x/week) – Planks, Hanging Leg Raises, Stretching for flexibility<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Daily Steps – 6000-8000+<br>
+
+`;
+          dietPlan = `
+    <i class='bx bxs-right-arrow'></i> <b>Caloric Surplus – Consume 400-600 kcal more than maintenance daily<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Protein (30-35%) – Chicken, Fish, Eggs, Paneer, Lentils, Greek Yogurt<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Carbs (45-50%) – Brown Rice, Whole Wheat, Sweet Potatoes, Oats, Fruits<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Carbs (45-50%) – Brown Rice, Whole Wheat, Sweet Potatoes, Oats, Fruits<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Hydration – 3-4L water daily<br>
+`;
+          mealplanner = `
+    <i class='bx bxs-right-arrow'></i> <b>Breakfast: Whole Wheat Toast + Scrambled Eggs + Avocado + Milk<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Snack: Banana + Peanut Butter or Protein Shake with Nuts<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Lunch: Grilled Chicken/Fish + Brown Rice/Quinoa + Steamed Vegetables<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Evening Snack: Greek Yogurt with Honey & Almonds or Dark Chocolate<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Dinner: Paneer/Tofu Stir-fry + Whole Wheat Roti + Mixed Vegetables<br>
+
+`;
+        } else if (weightDifference <= 10) {
+          fitnessPlan = `
+    <i class='bx bxs-right-arrow'></i> <b>Strength Training (5x/week) – Squats, Deadlifts, Bench Press, Shoulder Press, Pull-ups, Rows (4 sets, 8-12 reps)<br>
+
+    <i class='bx bxs-right-arrow'></i><b> Progressive Overload – Gradually increase weights to build muscle mass<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Isolation Exercises (2-3x/week) – Bicep Curls, Triceps Dips, Leg Extensions for muscle definition<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Low-Intensity Cardio (1-2x/week) – Walking, Cycling (10-20 min) to maintain heart health without excessive calorie burn<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Core & Mobility (2x/week) – Hanging Leg Raises, Planks, Yoga, and Stretching<br>
+
+    <i class='bx bxs-right-arrow'></i><b>  Daily Steps – 5,000-7000<br>
+
+`;
+          dietPlan = `
+    <i class='bx bxs-right-arrow'></i> <b>Caloric Surplus – Consume 500-700 kcal more than maintenance daily<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Protein (30-35%) – Chicken, Eggs, Fish, Paneer, Lentils, Greek Yogurt<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Carbs (50-55%) – Whole Wheat, Brown Rice, Oats, Sweet Potatoes, Fruits<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Fats (20-25%) – Nuts, Avocado, Olive Oil, Seeds, Peanut Butter<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Hydration – 3-4LL water daily<br>
+`;
+          mealplanner = `
+    <i class='bx bxs-right-arrow'></i> <b>Breakfast: Whole Wheat Bread + Scrambled Eggs + Avocado + Milk<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Snack: Banana + Peanut Butter or High-Calorie Protein Shake<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Lunch: Grilled Chicken/Fish + Quinoa/Brown Rice + Steamed Veggies<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Snack: Yogurt with Honey & Almonds or Dark Chocolate<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Dinner: Paneer/Tofu Stir-fry + Whole Wheat Roti + Sautéed Vegetables<br>
+
+`;
+        } else if (weightDifference <= 12) {
+          fitnessPlan = `
+    <i class='bx bxs-right-arrow'></i> <b>Strength Training (5x/week) – Squats, Deadlifts, Bench Press, Shoulder Press, Pull-ups, Rows (4 sets, 8-12 reps)<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Progressive Overload – Increase weights gradually to build muscle mass(45-60 min)<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Isolation Exercises (2-3x/week) – Bicep Curls, Triceps Dips, Leg Extensions for muscle definition<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Compound Lifts Priority – Heavy Squats, Deadlifts, Bench Press for maximum muscle gain<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Core & Mobility (2x/week) – Hanging Leg Raises, Planks, Yoga, and Stretching<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Daily Steps – 5,000-7,000<br>
+
+`;
+          dietPlan = `
+    <i class='bx bxs-right-arrow'></i> <b> Caloric Surplus – Consume 600-800 kcal more than maintenance daily<br>
+
+    <i class='bx bxs-right-arrow'></i> <b> Protein (30-35%) – Chicken, Eggs, Fish, Paneer, Lentils, Greek Yogurt, Whey Protein<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Carbs (50-55%) – Whole Wheat, Brown Rice, Oats, Sweet Potatoes, Fruits, Pasta<br>
+
+    <i class='bx bxs-right-arrow'></i> <b> Healthy Fats (20-25%) – Nuts, Avocado, Olive Oil, Seeds, Peanut Butter, Dark Chocolate<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Hydration – 3-4L water daily<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Meal Frequency – Eat every 3-4 hours to maintain steady calorie intake<br>
+`;
+          mealplanner = `
+    <i class='bx bxs-right-arrow'></i> <b>Breakfast: Whole Wheat Bread + Scrambled Eggs + Avocado + Banana + Whole Milk<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Snack: Peanut Butter Sandwich or High-Calorie Protein Shake<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Lunch: Grilled Chicken/Fish + Brown Rice/Quinoa + Steamed Veggies + Olive Oil Dressing<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Evening Snack: Greek Yogurt with Honey & Almonds or Dark Chocolate + Protein Shake<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Dinner: Paneer/Tofu Stir-fry + Whole Wheat Roti + Sautéed Vegetables<br>
+
+`;
+        } else {
+          fitnessPlan = `
+    <i class='bx bxs-right-arrow'></i>Strength Training (5x/week) – Squats, Deadlifts, Bench Press, Shoulder Press, Rows, Pull-ups (4-5 sets, 6-12 reps)<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Progressive Overload – Increase weights weekly to maximize muscle hypertrophy(60 min)<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Isolation Exercises (2-3x/week) – Biceps Curls, Triceps Dips, Leg Extensions, Calf Raises for muscle definition<br>
+
+    <i class='bx bxs-right-arrow'></i><b> Heavy Compound Lifts Priority – Focus on heavy lifting for strength and muscle mass<br>
+
+    <i class='bx bxs-right-arrow'></i><b> Low-Intensity Cardio (1-2x/week) – Walking, Cycling (10-15 min) to maintain cardiovascular health without burning excess calories<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Core & Mobility (2x/week) – Hanging Leg Raises, Planks, Yoga, Stretching<br>
+
+    <i class='bx bxs-right-arrow'></i><b> Daily Steps – 5,000-7,000<br>
+
+`;
+          dietPlan = `
+    <i class='bx bxs-right-arrow'></i> <b>Protein (30-35%) – Chicken, Eggs, Fish, Paneer, Lentils, Greek Yogurt, Whey Protein<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Carbs (50-55%) – Whole Wheat, Brown Rice, Oats, Sweet Potatoes, Fruits, Pasta<br>
+
+    <i class='bx bxs-right-arrow'></i> <b> Healthy Fats (20-25%) – Nuts, Avocado, Olive Oil, Seeds, Peanut Butter, Dark Chocolate<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Caloric Surplus – Consume 800-1000 kcal more than maintenance daily<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Hydration – 4-5L water daily<br>
+
+
+    <i class='bx bxs-right-arrow'></i> <b>Meal Frequency – Eat every 3-4 hours to maintain steady calorie intake<br>
+`;
+          mealplanner = `
+    <i class='bx bxs-right-arrow'></i> <b>Breakfast: Whole Wheat Bread + Scrambled Eggs + Avocado + Banana + Whole Milk<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Snack: Peanut Butter Toast + Almonds + Protein Shake<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Lunch: Grilled Chicken/Fish + Brown Rice/Quinoa + Steamed Veggies + Olive Oil Dressing<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Evening Snack: Greek Yogurt with Honey & Walnuts or Dark Chocolate + High-Calorie Smoothie<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Dinner: Paneer/Tofu Stir-fry + Whole Wheat Roti + Sautéed Vegetables<br>
+
+`;
+        }
+
+        resultDiv.innerHTML = `<h3>Fitness Plan</h3><p>${fitnessPlan}</p>
+                                   <h3>Diet Plan</h3><p>${dietPlan}</p>
+                                   <h3>Meal Plan</h3><p>${mealplanner}</p> `;
+      }
+      
+    </script>
+  </body>
+</html>

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <title>Fitness Advisor</title>
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #111, #222);
+        color: white;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 400px;
+        margin: auto;
+        background: rgba(34, 34, 34, 0.9);
+        padding: 50px;
+        border-radius: 15px;
+        box-shadow: 0px 4px 15px rgba(166, 255, 77, 0.4);
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      }
+
+      .container:hover {
+        transform: scale(1.03);
+        box-shadow: 0px 4px 20px rgba(166, 255, 77, 0.5);
+      }
+
+      h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+
+      .container h2 {
+        color: #a6ff4d;
+        font-size: 2rem;
+      }
+
+      label {
+        font-size: 16px;
+        font-weight: 600;
+        display: block;
+        text-align: left;
+        margin-top: 12px;
+      }
+
+      input {
+        width: 100%;
+        padding: 12px;
+        margin-top: 5px;
+        border: none;
+        border-radius: 8px;
+        background: #333;
+        color: white;
+        font-size: 16px;
+        outline: none;
+        transition: all 0.3s ease;
+      }
+
+      input:focus {
+        background: #444;
+        box-shadow: 0px 0px 10px rgba(166, 255, 77, 0.5);
+        transform: scale(1.02);
+      }
+
+      button {
+        width: 100%;
+        background: linear-gradient(90deg, #a6ff4d, #8ee000);
+        color: black;
+        padding: 12px;
+        margin-top: 15px;
+        border: none;
+        border-radius: 8px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0px 4px 10px rgba(166, 255, 77, 0.3);
+      }
+
+      button:hover {
+        background: linear-gradient(90deg, #8ee000, #a6ff4d);
+        transform: translateY(-3px);
+        box-shadow: 0px 4px 15px rgba(166, 255, 77, 0.6);
+      }
+
+      #result {
+        margin-top: 20px;
+        font-size: 16px;
+        font-weight: 500;
+        color: #ffffff;
+        text-align: left;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 10px;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Weight Loss Advisor</h2>
+      <label>Height (cm):</label>
+      <input type="number" id="height" placeholder="Enter your height" />
+      <label>Current Weight (kg):</label>
+      <input type="number" id="currentWeight" placeholder="Enter your weight" />
+      <label>Target Weight (kg):</label>
+      <input
+        type="number"
+        id="targetWeight"
+        placeholder="Enter target weight"
+      />
+      <button onclick="generatePlan()">Get Plan</button>
+      <div id="result"></div>
+    </div>
+
+    <script>
+      function generatePlan() {
+        let height = parseFloat(document.getElementById("height").value);
+        let currentWeight = parseFloat(
+          document.getElementById("currentWeight").value
+        );
+        let targetWeight = parseFloat(
+          document.getElementById("targetWeight").value
+        );
+        let resultDiv = document.getElementById("result");
+
+        if (isNaN(height) || isNaN(currentWeight) || isNaN(targetWeight)) {
+          resultDiv.innerHTML = "Please enter valid numbers.";
+          return;
+        }
+
+        let weightToLose = currentWeight - targetWeight;
+        let maxAllowedLoss = currentWeight * 0.15;
+
+        if (weightToLose <= 0) {
+          resultDiv.innerHTML =
+            "Target weight must be less than current weight.";
+          return;
+        }
+        if (weightToLose > maxAllowedLoss) {
+          resultDiv.innerHTML = `You shouldn't lose more than 15% of your current weight! (Max: ${maxAllowedLoss.toFixed(
+            2
+          )} kg)`;
+          return;
+        }
+
+        let fitnessPlan = "";
+        let dietPlan = "";
+        let mealplanner = "";
+
+        if (weightToLose <= 3) {
+          fitnessPlan = `
+    <i class='bx bxs-right-arrow'></i> <b>Strength Training (3x/week) – Squats, Push-ups, Shoulder Press, Rows (3 sets, 10-12 reps)<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Cardio (4-5x/week) – Brisk Walking (40 min) OR Cycling/Running (30 min)<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Core & Mobility (3x/week) – Planks, Russian Twists, Stretching, Yoga<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Daily Steps – 5,000+<br>
+
+`;
+          dietPlan = `
+    <i class='bx bxs-right-arrow'></i> <b>Protein (40%) – Eggs, Chicken, Fish, Paneer, Lentils (1.2-1.5g/kg body weight)<br>
+
+    <i class='bx bxs-right-arrow'></i> <b> Carbs (30-35%) – Whole grains, Quinoa, Fruits (Moderate intake)<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Fats (25-30%) – Nuts, Avocado, Olive Oil<br>
+
+
+    <i class='bx bxs-right-arrow'></i> <b>Hydration – 3L water daily<br>
+`;
+          mealplanner = `
+      <i class='bx bxs-right-arrow'></i> <b>Breakfast: Oatmeal + Nuts + 2 Boiled Eggs<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Snack: Greek Yogurt + Almonds<br>
+
+    <i class='bx bxs-right-arrow'></i> <b> Lunch: Grilled Chicken/Tofu + Brown Rice + Salad<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Evening Snack: Green Tea + Handful of Walnuts<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Dinner: Stir-fried Veggies + Paneer/Fish (Light meal)<br>
+
+`;
+        } else if (weightToLose <= 5) {
+          fitnessPlan = `
+    <i class='bx bxs-right-arrow'></i> <b>Strength Training (4x/week) – Squats, Deadlifts, Push-ups, Shoulder Press, Rows (3-4 sets, 10-12 reps)<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Cardio (5x/week) – HIIT (20 min) OR Running/Cycling/Brisk Walking (40 min)<br>
+
+    <i class='bx bxs-right-arrow'></i>Core & Mobility (3x/week) – Planks, Russian Twists, Bicycle Crunches, Stretching<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Daily Steps – 7,000+<br>
+
+`;
+          dietPlan = `
+    <i class='bx bxs-right-arrow'></i> <b> Protein (45%) – Eggs, Chicken, Fish, Paneer, Lentils (1.5-1.8g/kg body weight)<br>
+
+    <i class='bx bxs-right-arrow'></i> <b> Carbs (25-30%) – Whole grains, Brown Rice, Quinoa, Fruits (Controlled intake)<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Fats (25-30%) – Nuts, Avocado, Olive Oil, Chia Seeds<br>
+
+
+    <i class='bx bxs-right-arrow'></i> <b>Hydration – 3.5L water daily<br>
+`;
+          mealplanner = `
+      <i class='bx bxs-right-arrow'></i> <b>Breakfast: Scrambled eggs (2) + Whole wheat toast + Nuts<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Snack: Greek Yogurt + Flaxseeds<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Lunch: Grilled Chicken/Tofu + Brown Rice + Salad<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Evening Snack: Green Tea + Handful of Almonds<br>
+
+    <i class='bx bxs-right-arrow'></i> <b> Dinner: Stir-fried Veggies + Paneer/Fish (Low-carb meal)<br>
+
+`;
+        } else if (weightToLose <= 7) {
+          fitnessPlan = `
+    <i class='bx bxs-right-arrow'></i>Strength Training (4x/week) – Squats, Deadlifts, Push-ups, Shoulder Press, Rows (4 sets, 10-12 reps)<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Cardio (5-6x/week) – HIIT (25 min) OR Running/Cycling/Stair Climbing (45 min)<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Core & Mobility (4x/week) – Planks, Bicycle Crunches, Russian Twists, Stretching<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Daily Steps – 10,000+<br>
+
+`;
+          dietPlan = `
+    <i class='bx bxs-right-arrow'></i> <b>Protein (45%) – Eggs, Chicken, Fish, Paneer, Lentils (1.8-2g/kg body weight)<br>
+
+    <i class='bx bxs-right-arrow'></i> <b> Carbs (25-30%) – Brown Rice, Quinoa, Sweet Potato (Controlled intake)<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Fats (25-30%) – Nuts, Avocado, Olive Oil, Chia Seeds<br>
+
+
+    <i class='bx bxs-right-arrow'></i> <b>Hydration – 4L water daily<br>
+`;
+          mealplanner = `
+    <i class='bx bxs-right-arrow'></i> <b>Breakfast: Boiled eggs (3) + Oats with nuts<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Snack: Greek Yogurt + Flaxseeds<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Lunch: Grilled Chicken/Tofu + Steamed Veggies + Brown Rice<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Evening Snack: Green Tea + Handful of Almonds<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Dinner: Stir-fried Veggies + Paneer/Fish (Low-carb meal)<br>
+
+`;
+        } else if (weightToLose <= 10) {
+          fitnessPlan = `
+    <i class='bx bxs-right-arrow'></i> <b>Strength Training (3-4x/week) – Squats, Lunges, Push-ups, Deadlifts (3 sets, 8-12 reps)<br>
+
+    <i class='bx bxs-right-arrow'></i><b> Cardio (4-5x/week) – HIIT (15-20 min) or Walking/Running (30-45 min)<br>
+
+    <i class='bx bxs-right-arrow'></i><b>Core & Flexibility (2-3x/week) – Planks, Yoga, Stretching<br>
+
+    <i class='bx bxs-right-arrow'></i><b>  Daily Steps – 12,000+<br>
+
+`;
+          dietPlan = `
+    <i class='bx bxs-right-arrow'></i> <b>Protein (40%) – Chicken, Fish, Eggs, Lentils<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Carbs (30-35%) – Brown Rice, Oats, Whole Wheat Bread<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Fats (20-25%) – Nuts, Avocado, Olive Oil<br>
+
+
+    <i class='bx bxs-right-arrow'></i> <b>Hydration – 3L water daily<br>
+`;
+          mealplanner = `
+    <i class='bx bxs-right-arrow'></i> <b>Breakfast: Scrambled eggs + Whole wheat toast + Avocado<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Snack: Nuts or Protein shake<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Lunch: Grilled Chicken/Fish + Quinoa + Veggies<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Evening Snack: Green tea + Almonds<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Dinner: Stir-fried Tofu + Brown Rice + Vegetables<br>
+
+`;
+        } else if (weightToLose <= 12) {
+          fitnessPlan = `
+    <i class='bx bxs-right-arrow'></i> <b>Strength Training (4x/week) – Bench Press, Deadlifts, Squats, Lunges (4 sets, 10-12 reps)<br>
+
+    <i class='bx bxs-right-arrow'></i><b> Cardio (6x/week) – HIIT (20-25 min) OR Running/Cycling (45-60 min)<br>
+
+    <i class='bx bxs-right-arrow'></i><b> Core & Mobility (4x/week) – Planks, Hanging Leg Raises, Russian Twists, Yoga <br>
+
+    <i class='bx bxs-right-arrow'></i><b>  Daily Steps – 15,000+<br>
+
+`;
+          dietPlan = `
+    <i class='bx bxs-right-arrow'></i> <b>Protein (45%) – Chicken, Fish, Eggs, Tofu (1.5-2g per kg body weight)<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Carbs (25-30%) – Brown Rice, Quinoa, Sweet Potato (Lower carb intake)<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Fats (25%) – Avocado, Nuts, Olive Oil<br>
+
+
+    <i class='bx bxs-right-arrow'></i> <b>Hydration – 4L water daily<br>
+`;
+          mealplanner = `
+    <i class='bx bxs-right-arrow'></i> <b>Breakfast: Scrambled eggs + Whole wheat toast + Avocado<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Snack: Nuts or Protein shake<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Lunch: Grilled Chicken/Fish + Quinoa + Veggies<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Evening Snack: Green tea + Almonds<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Dinner: Stir-fried Tofu + Brown Rice + Vegetables<br>
+
+`;
+        } else {
+          fitnessPlan = `
+    <i class='bx bxs-right-arrow'></i> Strength Training (6x/week) – Squats, Deadlifts, Push-ups, Shoulder Press, Rows (4 sets, 12-15 reps)<br>
+
+    <i class='bx bxs-right-arrow'></i><b>  Cardio (6x/week) – HIIT (30 min) OR Running/Stair Climbing/Cycling (60 min)<br>
+
+    <i class='bx bxs-right-arrow'></i><b> Core & Mobility (5x/week) – Planks, Bicycle Crunches, Russian Twists, Stretching <br>
+
+    <i class='bx bxs-right-arrow'></i><b>  Daily Steps – 15,000+<br>
+
+`;
+          dietPlan = `
+    <i class='bx bxs-right-arrow'></i> <b>Protein (50%) – Chicken, Fish, Eggs, Paneer, Lentils (2-2.2g/kg body weight)<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Carbs (20-25%) – Brown Rice, Quinoa, Oats (Minimized intake)<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Fats (25-30%) – Avocado, Nuts, Olive Oil, Chia Seeds<br>
+
+
+    <i class='bx bxs-right-arrow'></i> <b>Hydration – 5L water daily<br>
+`;
+          mealplanner = `
+    <i class='bx bxs-right-arrow'></i> <b>Breakfast: Scrambled eggs (3) + Spinach + Whole wheat toast<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Snack: Protein shake + Almonds<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Lunch: Grilled Chicken + Steamed Veggies + Quinoa<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Evening Snack: Green tea + Handful of walnuts<br>
+
+    <i class='bx bxs-right-arrow'></i> <b>Dinner: Stir-fried Tofu/Paneer + Leafy Greens (No rice at night)<br>
+
+`;
+        }
+
+        resultDiv.innerHTML = `<h3>Fitness Plan</h3><p>${fitnessPlan}</p>
+                                   <h3>Diet Plan</h3><p>${dietPlan}</p>
+                                   <h3>Meal Plan</h3><p>${mealplanner}</p> `;
+      }
+    </script>
+  </body>
+</html>

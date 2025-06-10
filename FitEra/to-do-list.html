@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Exercise Planner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <style>
+        /* Root Variables */
+        :root {
+            --header-height: 3.5rem;
+            --first-color: hsl(79, 72%, 55%);
+            --text-color: hsl(180, 4%, 72%);
+            --body-color: hsl(180, 12%, 8%);
+            --font: 'Red Hat Display', sans-serif;
+        }
+
+        /* General Styling */
+        body {
+            font-family: var(--font);
+            background-color: var(--body-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: var(--first-color);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Kaushan Script', cursive;
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        input {
+            padding: 0.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+        }
+
+        button {
+            padding: 0.5rem;
+            font-size: 1rem;
+            border: none;
+            background-color: var(--body-color);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: white;
+            color: var(--body-color);
+        }
+
+        .exercise-container {
+            margin-top: 2rem;
+        }
+
+        .day-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .day-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .to-do-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .to-do-item {
+            background: white;
+            color: var(--body-color);
+            padding: 0.5rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .to-do-item button {
+            background: none;
+            border: none;
+            color: red;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Weekly Exercise Planner</h1>
+        <form id="to-do-form">
+            <input type="text" id="exercise-input" placeholder="Enter exercise" required>
+            <input type="date" id="day-selector" required>
+            <button type="submit">Add Exercise</button>
+        </form>
+        <div id="day-wise-exercises" class="exercise-container"></div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('to-do-form');
+            const input = document.getElementById('exercise-input');
+            const daySelector = document.getElementById('day-selector');
+            const dayWiseExercises = document.getElementById('day-wise-exercises');
+
+            const exercisesByDay = {};
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const selectedDate = new Date(daySelector.value);
+                if (isNaN(selectedDate)) return;
+
+                const dayName = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
+                const formattedDate = selectedDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+                const dayWithDate = `${dayName}, ${formattedDate}`;
+                const exerciseText = input.value.trim();
+
+                if (exerciseText) {
+                    if (!exercisesByDay[dayWithDate]) {
+                        exercisesByDay[dayWithDate] = [];
+                        createDaySection(dayWithDate);
+                    }
+
+                    exercisesByDay[dayWithDate].push(exerciseText);
+                    addExerciseToDay(dayWithDate, exerciseText);
+
+                    input.value = '';
+                    daySelector.value = '';
+                }
+            });
+
+            function createDaySection(dayWithDate) {
+                const daySection = document.createElement('div');
+                daySection.className = 'day-section';
+                daySection.id = `section-${dayWithDate}`;
+
+                const dayTitle = document.createElement('h3');
+                dayTitle.className = 'day-title';
+                dayTitle.textContent = dayWithDate;
+
+                const exerciseList = document.createElement('ul');
+                exerciseList.className = 'to-do-list';
+                exerciseList.id = `list-${dayWithDate}`;
+
+                daySection.appendChild(dayTitle);
+                daySection.appendChild(exerciseList);
+                dayWiseExercises.appendChild(daySection);
+            }
+
+            function addExerciseToDay(dayWithDate, exerciseText) {
+                const exerciseList = document.getElementById(`list-${dayWithDate}`);
+
+                const listItem = document.createElement('li');
+                listItem.className = 'to-do-item';
+
+                const span = document.createElement('span');
+                span.textContent = exerciseText;
+
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.addEventListener('click', () => {
+                    const index = exercisesByDay[dayWithDate].indexOf(exerciseText);
+                    if (index > -1) exercisesByDay[dayWithDate].splice(index, 1);
+                    exerciseList.removeChild(listItem);
+
+                    if (exercisesByDay[dayWithDate].length === 0) {
+                        document.getElementById(`section-${dayWithDate}`).remove();
+                        delete exercisesByDay[dayWithDate];
+                    }
+                });
+
+                listItem.appendChild(span);
+                listItem.appendChild(deleteButton);
+                exerciseList.appendChild(listItem);
+            }
+        });
+    </script>
+</body>
+</html>

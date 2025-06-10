@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Profile</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Red+Hat+Display:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --header-height: 3.5rem;
+        --first-color: hsl(79, 72%, 55%);
+        --first-color-light: hsl(79, 97%, 77%);
+        --first-color-alt: hsl(79, 67%, 52%);
+        --first-color-dark: hsl(79, 63%, 50%);
+        --first-color-gray: hsl(79, 6%, 64%);
+        --title-color: hsl(180, 4%, 98%);
+        --title-color-black: hsl(180, 4%, 12%);
+        --text-color: hsl(180, 4%, 72%);
+        --text-color-light: hsl(180, 4%, 65%);
+        --body-color: hsl(180, 12%, 8%);
+        --body-bg-color: #101820;
+        --button-color: hsl(79, 72%, 55%);
+        --button-hover-color: hsl(79, 67%, 52%);
+        --input-border-color: hsl(79, 97%, 77%);
+        --input-focus-border-color: hsl(79, 63%, 50%);
+        --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        --transition-speed: 0.3s;
+        --font-size: 1rem;
+      }
+
+      body {
+        font-family: "Red Hat Display", sans-serif;
+        background-color: black;
+        color: var(--first-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 600px;
+        background-color: var(--body-color);
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        text-align: center;
+        color: var(--first-color);
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        font-family: "Kaushan Script", cursive;
+      }
+
+      .profile-info {
+        font-size: 1.2rem;
+        line-height: 1.8;
+      }
+
+      .profile-info span {
+        font-weight: bold;
+        color: var(--first-color);
+      }
+
+      .edit-button {
+        width: 100%;
+        padding: 14px;
+        background-color: var(--button-color);
+        border: none;
+        color: white;
+        font-size: var(--font-size);
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color var(--transition-speed);
+        margin-top: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .edit-button:hover {
+        background-color: var(--button-hover-color);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>User Profile</h1>
+      <div class="profile-info">
+        <p><span>Name:</span> <span id="userName"></span></p>
+        <p><span>Phone:</span> <span id="userPhone"></span></p>
+        <p><span>Age:</span> <span id="userAge"></span></p>
+        <p><span>Height:</span> <span id="userHeight"></span> cm</p>
+        <p><span>Weight:</span> <span id="userWeight"></span> kg</p>
+        <p><span>Gender:</span> <span id="userGender"></span></p>
+      </div>
+
+      <button class="edit-button" onclick="window.location.href='profile_form.html'">Edit Profile</button>
+    </div>
+
+    <script>
+      // On page data from sessionStorage
+      window.addEventListener("DOMContentLoaded", (event) => {
+        const name = sessionStorage.getItem("name");
+        const phone = sessionStorage.getItem("phone");
+        const age = sessionStorage.getItem("age");
+        const height = sessionStorage.getItem("height");
+        const weight = sessionStorage.getItem("weight");
+        const gender = sessionStorage.getItem("gender");
+
+        // For Edit
+        document.getElementById("userName").textContent = name;
+        document.getElementById("userPhone").textContent = phone;
+        document.getElementById("userAge").textContent = age;
+        document.getElementById("userHeight").textContent = height;
+        document.getElementById("userWeight").textContent = weight;
+        document.getElementById("userGender").textContent = gender;
+      });
+    </script>
+  </body>
+</html>
